@@ -26,7 +26,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
   [self updateUIState];
   
   self.signInService = [RWDummySignInService new];
