@@ -47,6 +47,14 @@
     RAC(self.usernameTextField, backgroundColor) = [validUsernameSignal map:^id(NSNumber *isValid) {
         return [isValid boolValue] ? [UIColor clearColor] : [UIColor yellowColor];
     }];
+    
+    RACSignal *signInActiveSignal = [RACSignal combineLatest:@[validUsernameSignal, validPasswordSignal] reduce:^id(NSNumber *usernameIsValid, NSNumber *passwordIsValid){
+        return @([usernameIsValid boolValue] && [passwordIsValid boolValue]);
+    }];
+    
+    [signInActiveSignal subscribeNext:^(NSNumber *signInButtonShouldActive) {
+        self.signInButton.enabled = [signInButtonShouldActive boolValue];
+    }];
 }
 
 - (BOOL)isValidUsername:(NSString *)username {
